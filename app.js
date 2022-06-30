@@ -6,6 +6,9 @@ const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const bcrypt = require('bcryptjs')
+const usePassport = require('./config/passport')
+
+const router = require('./routes/index')
 
 const app = express()
 
@@ -19,8 +22,7 @@ app.use(session({
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-app.get('/', (req, res) => {
-  res.send('hello world')
-})
+usePassport(app)
+app.use(router)
 
 app.listen(process.env.PORT, () => console.log(`express is now listening on localhost:${process.env.PORT}`))
